@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
+import { UiService } from '../../services/ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -10,9 +12,15 @@ import { ButtonComponent } from '../button/button.component';
 })
 export class HeaderComponent {
   title = 'Task Tracker';
+  showAddTask: boolean = false;
+  subscription: Subscription = new Subscription;
+
+  constructor(private uiService: UiService) {
+    this.subscription = this.uiService.onToggle().subscribe(value => this.showAddTask = value)
+  }
 
   toggleAddTask() {
-    console.log('toggle')
+    this.uiService.toggleAddTask()
   }
 
 }
